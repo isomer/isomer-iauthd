@@ -1,0 +1,147 @@
+/* $Id: ChangeLog,v 1.24 2008/04/18 20:45:05 danielaustin Exp $ */
+
+2008-04-18	Dan-m00 <daniel@undernet.org>
+		* include/iauthd_config.h.in: change cache expiry time to 60
+			seconds for negative cache and 1 hour for positive.
+		* include/iauthd.h: add variables to monitor cache effectiveness
+		* src/main.c: report cache effectiveness.
+		* src/regex.c: implement dual durations from above.
+
+2008-04-18	Dan-m00 <daniel@undernet.org>
+		* include/iauthd_config.h.in: change regex cache expiry time to
+			5 minutes.
+		* src/regex.c: cause cache hits to renew expiry time.
+
+2008-04-18	Dan-m00 <daniel@undernet.org>
+		* include/iauthd.h: modify caching structure
+		* src/main.c: modify passing parameters for cache
+		* src/regex.c: modify regex cache features.
+
+2008-04-18	Dan-m00 <daniel@undernet.org>
+		* include/iauthd.h: add regex caching structure
+		* include/iauthd_config.h.in: add regex cache duration
+		* src/main.c: update stats output for new regex cache.  Also,
+			check against, and add to the regex cache.
+		* src/regex.c: add functions for regex caching.
+		* src/expires.c: add cache expiry function.
+
+2008-04-18	Dan-m00 <daniel@undernet.org>
+		* src/main.c: add an ip-based kline cache entry for 1 hour when
+			matching a regex kline.
+
+2008-02-01	Dan-m00 <daniel@undernet.org>
+		* include/iauthd.h: check and include various forms of stdint.h
+			and inttypes.h for older operating systems.  Also set
+			a different order of includes for freebsd-4.x
+
+		* Makefile.in:
+		* examples/Makefile.in:
+		* src/Makefile.in: Update makefiles with different compiler
+			flags for compiling on older OS's.
+
+2008-01-28	Dan-m00 <daniel@undernet.org>
+		* src/regex.c: strip spaces/tabs from the start of reasons.
+
+2008-01-21	Dan-m00 <daniel@undernet.org>
+		* include/iauthd_config.h.in: add regex stats file.
+		* include/iauthd.h: add last hit ts and hit counter to regex.
+			Also, add function prototype for stats function
+		* src/main.c: increment counters on regex matches.  Also, call
+			regex stats writer when doing cache writes.
+		* src/regex.c: zero counters when loading config, also add
+			statistics writing routine.
+
+2008-01-21	Dan-m00 <daniel@undernet.org>
+		* src/regex.c: Fix coredump on config reload.
+
+2008-01-20	Dan-m00 <daniel@undernet.org>
+		* include/iauthd.h: add/modify regex-based variables, also add
+			function prototypes for config loading.
+		* src/config.c: (re-)load regex config when reloading configs.
+		* src/regex.c: add function to read/re-read regex config file.
+		* src/main.c: check against regex klines if present.
+
+2008-01-20	Dan-m00 <daniel@undernet.org>
+		* examples/iauthd.regex-klines.sample.in: (new file)
+		* Makefile.am:
+		* Makefile.in:
+		* configure:
+		* configure.in:
+		* examples/Makefile.am:
+		* examples/Makefile.in:
+		* src/Makefile.in: update build system to include new regex
+			klines sample config file.
+
+2008-01-02	Dan-m00 <daniel@undernet.org>
+		* src/exceptions.c: fix logic for emptying exceptions
+
+2008-01-02	Dan-m00 <daniel@undernet.org>
+		* src/config.c: fix logic for emptying klines
+
+2007-12-10	Dan-m00 <daniel@undernet.org>
+		* include/iauthd.h: edit function prototype for match()
+		* src/match.c: modify match() function to allow case insensitive
+			matches via an extra flag.
+		* src/exceptions.c:
+		* src/ipcheck.c:
+		* src/main.c: modify calls to match() to pass the additional
+			parameter mentioned above.  Also, make hostname matches
+			case insensitive!
+
+2007-12-10	Dan-m00 <daniel@undernet.org>
+		* include/iauthd.h: add prototype for new function (below)
+		* src/config.c: add new function to handle parsing of tokens.
+			This allows multiple tokens to be skipped.
+
+2007-12-09	Dan-m00 <daniel@undernet.org>
+		* include/iauthd.h: define challenge/response conditions
+		* examples/iauthd.forced-challenge.sample.in: alter file format
+			so that challenge/response condition is used
+		* src/config.c: read new format challenge/response file
+		* src/main.c: by default dont challenge anyone (unless listed
+			in forced config)
+
+2007-12-09	Dan-m00 <daniel@undernet.org>
+		* src/match.c: Fixup CIDR masks if they dont contain all four
+			octets.
+
+2007-12-07	Dan-m00 <daniel@undernet.org>
+		* src/main.c: edit WriteData() function to fix problems with
+			older GCC versions (also only runs certain code under
+			debug conditions)
+
+2007-12-06	Dan-m00 <daniel@undernet.org>
+		* Makefile.in:
+		* examples/Makefile.in:
+		* src/Makefile.in: Modify automake for include path changes
+		* include/iauthd.h: Modify include file path
+
+2007-11-16	Dan-m00 <daniel@undernet.org>
+		* include/iauthd.h: add dnsbl cache structure
+		* src/main.c: update stats counters for dnsbl cache structure
+		* src/cache.c: save/load dnsbl cache via cache file
+		* src/expires.c: process dnsbl cache expiry
+		* src/ipcheck.c: add cache check for dnsbl entries
+
+2007-11-16	Dan-m00 <daniel@undernet.org>
+		* src/cache.c: store all integers in network byte order, this
+			allows portability between machine types.
+
+2007-11-16	Dan-m00 <daniel@undernet.org>
+		* examples/iauthd.dnsbl.sample.in: add colon before reason!
+		* include/iauthd_config.h.in: add dns blacklist file
+		* include/iauthd.h: add dns blacklist structure
+		* src/config.c: add dns blacklist (re-)load
+		* src/ipcheck.c: check against dns blacklists from config
+		* src/main.c: update stats counters for new structure
+
+2007-11-16	Dan-m00 <daniel@undernet.org>
+		* src/config.c:
+		* src/exceptions.c: change linked list deletion from while to
+			for loops.
+
+2007-11-16	Dan-m00 <daniel@undernet.org>
+		* examples/iauthd.dnsbl.sample.in:
+		* <build-system>: Create a sample dns blacklist file ready for
+			moving blacklists to a dynamic (and multiple) list.
+

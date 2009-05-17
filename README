@@ -1,0 +1,114 @@
+/* $Id: README,v 1.3 2007/12/09 21:16:44 kewlio Exp $ */
+
+               Undernet IRC Authentication Daemon for ircu2.10.12+
+               ===================================================
+
+SUMMARY
+-------
+
+undernet-iauthd is an IRC Authentication Daemon for undernet's ircu2.10.12+
+server.  It handles requests from the IRC server for all new clients, passing
+back information on whether to accept or reject the connection.
+
+
+FEATURES
+--------
+
+* frees more time for ircd to handle chat instead of authentication
+* can be run on a remote system via pipes (e.g. via SSH)
+* klines based on any combination of host, ip, nick, user, realname
+* unlimited DNS blacklist checks, with full response checking and option to
+  pass an indentifier (or possibly URL) to the client when rejected.
+* regular expression based klines - for drone rejections
+* forced challenge/response for IP blocks in configuration file
+* forced challenge/response for non-idented clients from any IP
+* full IP exceptions from all checks
+
+
+PREREQUISITES
+-------------
+
+undernet-iauthd requires ircu2.10.12+.  It is unlikely to work (and possibly
+cause crashes) with versions before ircu2.10.12.11 - you have been warned!
+
+libpcre (perl-compatible regular expression library) is required only if you
+wish to use regex matching.  If the library is not found, regex checking will
+be disabled.
+
+At the time of writing, undernet-iauthd has been tested with the following
+operating system/compiler configurations:
+
+FreeBSD/i386 gcc3 + gcc4
+FreeBSD/amd64 gcc3 + gcc4
+FreeBSD/sparc64 gcc4.2.1
+Linux (Debian) 4.0 gcc4
+Solaris 10 x86 gcc3
+
+It should work on 32 or 64-bit platforms and its cache files can be transported
+between architectures safely (e.g. in the case of a server upgrade/migration)
+
+
+COMPILING
+---------
+
+After extracting this source code, simply run ./configure and tell it where you
+would like to install the daemon - for example:
+
+./configure --prefix=/home/ircd/iauthd
+
+If you wish to use regex, also add "--with-pcre" or "--with-pcre=<path-to-pcre>"
+
+After configure completes, run "make" and "make install".
+
+Installation will copy a set of sample configuration files to the prefix folder.
+These files are suffixed with ".sample" to avoid overwriting any live config.
+
+
+IRCU CONFIGURATION
+------------------
+
+To use the authentication daemon, you will need to edit your ircd.conf file.
+Assuming you installed into /home/ircd/iauthd, here is an example:
+
+IAuth {
+	program = "/home/ircd/iauthd/bin/iauthd";
+};
+
+If you wish to make use of remote execution via SSH, it is recommended that
+you create a shell script (e.g. iauthd.sh) containing (for example):
+
+    #!/bin/sh
+    /usr/bin/ssh -l <username> -q <hostname> /home/ircd/iauthd/bin/iauthd
+
+And using the following ircd.conf example:
+
+IAuth {
+	program = "/home/ircd/iauthd.sh";
+};
+
+NOTE: you do NOT need to 'start' iauthd - it is started by ircd automatically!
+
+
+MAINTENANCE
+-----------
+
+If you modify any configuration file, you can force undernet-iauthd to reload
+its configuration by sending a USR1 signal to it.  Any configuration errors
+will appear to IRC operators on the local server.
+
+undernet-iauthd will periodically save it's caches.  This will reduce the load
+on the daemon should it restart for any reason.  The daemon will also attempt
+to save its caches if it is terminated for any reason (e.g. ircd crashes)
+
+
+STATISTICS
+----------
+
+You can obtain statistics from the daemon via IRC by sending:
+
+/stats iauth
+
+as an IRC operator.  This will report information about number of connections,
+kills, connections per second as well as a memory breakdown for internal
+structures.  You can also see the pcre library version (if supported)
+

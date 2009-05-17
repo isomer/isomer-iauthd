@@ -1,0 +1,59 @@
+/*
+ * Copyright (c) 2007, Daniel Austin MBCS <daniel@undernet.org>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ * 
+ *  * Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ *  * Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ *  * Neither the name of Daniel Austin MBCS nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software without
+ *    specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $Id: iauthd_config.h.in,v 1.7 2008/04/18 20:45:05 danielaustin Exp $
+ *
+ */
+
+/*
+ * IAuthD Configuration File
+ */
+
+/* logfile to be appended with info */
+#define LOGFILE				"@prefix@/iauthd.log"
+/* file containing 1 ip per line of exceptions to IP checks */
+#define IP_EXCEPTIONS_FILE		"@prefix@/iauthd.ip-exceptions"
+/* file where we load/store our caches */
+#define CACHE_FILE			"@prefix@/iauthd.cache"
+/* file where we load our non-regex klines */
+#define KLINE_FILE			"@prefix@/iauthd.klines"
+
+#ifdef HAVE_PCRE_H
+/* regex cache duration (in seconds, positive and negative) */
+#define REGEX_CACHE_DURATION_NEG	60
+#define REGEX_CACHE_DURATION_POS	3600
+/* file where we load our regex klines */
+#define REGEX_KLINE_FILE		"@prefix@/iauthd.regex-klines"
+/* file where we store regex statistics */
+#define REGEX_STATS_FILE		"@prefix@/iauthd.stats.regex-klines"
+#endif
+
+/* file where we load our forced challenge/response list */
+#define FORCED_FILE			"@prefix@/iauthd.forced-challenge"
+/* file where we load our DNS blacklists */
+#define DNSBL_FILE			"@prefix@/iauthd.dnsbl"
+
